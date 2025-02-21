@@ -1,0 +1,71 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: renovate-bot
+spec:
+  schedule: "0 0 * * *"
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: {{ .Values.initContainer.name }}
+              image: {{ .Values.initContainer.image }}
+              command:
+                - "/bin/sh"
+                - "-c"
+                - {{ .Values.initContainer.command }}
+              volumeMounts:
+                - mountPath: /tmp
+                  name: tmp-volume
+                {{- range .Values.extraVolumeMounts }}
+                - mountPath: {{ .mountPath }}
+                  name: {{ .name }}
+                {{- end }}
+              env:
+                - name: APP_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.initContainer.envFromSecret }}
+                      key: app_id
+                - name: INSTALLATION_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.initContainer.envFromSecret }}
+                      key: installation_id
+                - name: PRIVATE_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.initContainer.envFromSecret }}
+                      key: private_key.pem
+          containers:
+            - name: {{ .Chart.Name }}
+              image: {{ $.Values.image.repository }}:{{ $.Values.image.tag }}
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              env:
+                {{- range .Values.env }}
+                - name: {{ .name }}
+                  value: {{ .value | quote }}
+                {{- end }}
+              command:
+                - 'sh'
+                - '-c'
+                - {{ .Values.command }}
+              volumeMounts:
+                - mountPath: /tmp
+                  name: tmp-volume
+                {{- range .Values.extraVolumeMounts }}
+                - mountPath: {{ .mountPath }}
+                  name: {{ .name }}
+                {{- end }}
+          volumes:
+            - name: tmp-volume
+              emptyDir: { }
+            {{- range .Values.extraVolumes }}
+            - name: {{ .name }}
+              {{- toYaml . | nindent 14 }}
+            {{- end }}
