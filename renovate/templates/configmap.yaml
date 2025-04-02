@@ -9,7 +9,10 @@ data:
       "platform": "github",
       "onboarding": false,
       "detectHostRulesFromEnv": true,
-      "autodiscover": true
+      "autodiscover": true,
+      "autodiscoverFilter": [
+        "my-lit-organization/my-second-deploy"
+      ]
     }
   generate-token.sh: |-
 {{ .Files.Get "scripts/generate-token.sh" | indent 4}}
