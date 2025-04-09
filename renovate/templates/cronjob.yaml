@@ -5,6 +5,7 @@ metadata:
   name: renovate-bot
 spec:
   schedule: "0 0 * * *"
+  suspend: {{ .Values.suspend }}
   successfulJobsHistoryLimit: 5
   failedJobsHistoryLimit: 5
   jobTemplate:

@@ -9,6 +9,8 @@ initContainer:
   command: 'cp /configmap/generate-token.sh /tmp/generate-token.sh && chmod +x /tmp/generate-token.sh && sh /tmp/generate-token.sh'
   envFromSecret: renovate
 
+suspend: true
+
 env:
   - name: LOG_LEVEL
     value: DEBUG
