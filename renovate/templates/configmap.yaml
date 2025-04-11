@@ -11,7 +11,6 @@ data:
       "detectHostRulesFromEnv": true,
       "autodiscover": true,
       "autodiscoverFilter": [
-        "!stub-space/renovate-stub-deploy",
         "stub-space/renovate-*"
       ]
     }
