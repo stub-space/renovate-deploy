@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>my-lit-organization/my-renovate"],
+  "extends": ["github>stub-space/renovate-config"],
   "vulnerabilityAlerts": {
     "labels": ["security"]
   }

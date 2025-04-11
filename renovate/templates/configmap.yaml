@@ -11,7 +11,8 @@ data:
       "detectHostRulesFromEnv": true,
       "autodiscover": true,
       "autodiscoverFilter": [
-        "my-lit-organization/my-second-deploy"
+        "!stub-space/renovate-stub-deploy",
+        "stub-space/renovate-*"
       ]
     }
   generate-token.sh: |-
