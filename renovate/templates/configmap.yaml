@@ -9,7 +9,8 @@ data:
       "platform": "github",
       "onboarding": false,
       "detectHostRulesFromEnv": true,
-      "repositories": [
+      "autodiscover": true,
+      "autodiscoverFilter": [
         "stub-space/renovate-*"
       ]
     }
